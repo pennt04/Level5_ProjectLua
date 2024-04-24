@@ -15,6 +15,7 @@ Description:main
 #include "Ufo.h"
 #include "laser.h"
 #include "Mothership.h"
+#include "LuaHelper.h"
 
 using namespace std;
 //globals ***maybe add to a class along with the functions below??***
@@ -22,6 +23,9 @@ Ufo*** DynamicUfoArray;
 Player* the_ship;
 Game* Game_manager;
 int x, y;//used for ufo array coordinates
+
+
+
 
 int randomNumber();//random number generator
 void destroyUFOs();
@@ -32,6 +36,15 @@ void game_start_message();
 int main()
 {
 	srand(time(NULL));//Sets the random seed for the whole game
+
+
+	//initialize lua
+	lua_State* L = luaL_newstate(); //create an instance of lua
+	luaL_openlibs(L); //open libraries for scripts
+
+	if (!LuaOK(L,luaL_dofile(L, "LuaScript.lua")))//open LuaScript
+		assert(false);
+
 
 	// DECLARE variables
 	bool is_right = true;//move direction check	
@@ -447,6 +460,11 @@ int main()
 	//////////////////////////////////////////	
 	delete the_ship;//delete the player ship
 	the_ship = nullptr;
+
+	//end lua
+	lua_close(L);
+
+	//end program
 	return 0;
 }
 
