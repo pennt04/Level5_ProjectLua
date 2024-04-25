@@ -17,5 +17,5 @@ ufo2 = "assets/Ufo2.bmp"
 
 
 
--- a simple object, Vector 2
-startPos = { x = 0, y = 0}
+-- a simple object, Vector2
+startPos = { x = 500, y = 620}

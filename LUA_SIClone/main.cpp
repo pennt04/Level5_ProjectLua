@@ -70,7 +70,8 @@ int main()
 	int level_colour = LuaGetInt(L, "colour");//for setting the background colour for each level and also defines the max number of levels
 	int Level_number = LuaGetInt(L, "level");//used for displaying the level number
 
-	the_ship = new Player(500, 625, LuaGetInt(L, "lives"), LuaGetString(L, "playerSprite"));//create the player ship
+	Vector2 startPosition; startPosition.LuaGet(L, "startPos");
+	the_ship = new Player(startPosition.x, startPosition.y, LuaGetInt(L, "lives"), LuaGetString(L, "playerSprite"));//create the player ship
 	the_ship->addFrame(LuaGetString(L, "playerSprite"));
 	
 
