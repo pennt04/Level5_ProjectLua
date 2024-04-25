@@ -38,6 +38,8 @@ int main()
 	srand(time(NULL));//Sets the random seed for the whole game
 
 
+
+
 	//initialize lua
 	lua_State* L = luaL_newstate(); //create an instance of lua
 	luaL_openlibs(L); //open libraries for scripts
@@ -46,24 +48,37 @@ int main()
 		assert(false);
 
 
-	// DECLARE variables
+
+
+	//// DECLARE variables
+	//general variables
 	bool is_right = true;//move direction check	
 	int ufo_counter = 0;//how many ufos destroyed (this tells the game when to start a new level)
-	int level_colour = 0;//for setting the background colour for each level and also defines the max number of levels
-	int Level_number = 1;//used for displaying the level number
 	int laser_generator;//chance of ufo firing
 	int Mothership_chance;//chance of mothership appearing
 
 	Game_manager = new Game();
 	Input* Input_manager = new Input();
-	DynamicUfoArray = new Ufo**[5] {};
+	DynamicUfoArray = new Ufo * *[5]{};
 	Mothership* the_mothership = NULL;
 	laser* laser_limit[10]{};
 	laser* Ufo_lasers[10]{};
 
-	the_ship = new Player(500, 625, 5, "assets/player0.bmp");//create the player ship
-	the_ship->addFrame("assets/player1.bmp");
+
+
+	//lua variables
+	int level_colour = LuaGetInt(L, "colour");//for setting the background colour for each level and also defines the max number of levels
+	int Level_number = LuaGetInt(L, "level");//used for displaying the level number
+
+	the_ship = new Player(500, 625, LuaGetInt(L, "lives"), LuaGetString(L, "playerSprite"));//create the player ship
+	the_ship->addFrame(LuaGetString(L, "playerSprite"));
 	
+
+
+
+
+
+
 	game_start_message();//DISPLAY THE GAME START MESSAGE 
 	
 	while (the_ship->getLives() > 0)// keep going until the ship is dead
