@@ -178,8 +178,10 @@ int main()
 						Mothership_chance = CallRandomNumber(L, "randomNumber");
 						if (Mothership_chance >= 250 && Mothership_chance <= 255)
 						{
-							the_mothership = new Mothership(0, 20, "assets/Mothership.bmp");
-							the_mothership->addFrame("assets/Mothership.bmp");
+							Vector2 mothershipPosition; mothershipPosition.LuaGet(L, "mothershipPos");
+
+							the_mothership = new Mothership(mothershipPosition.x, mothershipPosition.y, LuaGetString(L, "motherShip"));
+							the_mothership->addFrame(LuaGetString(L, "motherShip"));
 						}
 					}
 					if (the_mothership != NULL)//draw and move the mothership
