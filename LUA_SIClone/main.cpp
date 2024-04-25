@@ -142,7 +142,7 @@ int main()
 						{
 							if (laser_limit[i] == NULL)
 							{
-								Vector2 laserOffset; laserOffset.LuaGet(L, "PlayerlaserOffset");
+								Vector2 laserOffset; laserOffset.LuaGet(L, "playerLaserOffset");
 
 								laser_limit[i] = new laser(the_ship->getX() + laserOffset.x, the_ship->getY() - laserOffset.y, LuaGetString(L, "playerLaser"));
 								break;
@@ -163,7 +163,9 @@ int main()
 									{
 										if (Ufo_lasers[i] == NULL)
 										{
-											Ufo_lasers[i] = new laser(DynamicUfoArray[y][x]->getX() + 35, DynamicUfoArray[y][x]->getY() + 53, LuaGetString(L, "playerLaser"));
+											Vector2 laserOffset; laserOffset.LuaGet(L, "ufoLaserOffset");
+
+											Ufo_lasers[i] = new laser(DynamicUfoArray[y][x]->getX() + laserOffset.x, DynamicUfoArray[y][x]->getY() + laserOffset.y, LuaGetString(L, "playerLaser"));
 											break;
 										}
 									}
