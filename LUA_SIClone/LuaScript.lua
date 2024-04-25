@@ -49,3 +49,15 @@ function right(x,currentFrame)
 	
 	return x, currentFrame
 end
+
+
+
+
+
+
+
+
+
+function callMessage()
+	display_message("Get a Life", 1)
+end

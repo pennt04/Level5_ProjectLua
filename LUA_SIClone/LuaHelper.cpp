@@ -71,6 +71,27 @@ double LuaGetDouble(lua_State* L, const std::string& name)
 
 
 
+void Vector2::LuaGet(lua_State* L, const std::string& name) 
+{
+	lua_getglobal(L, name.c_str());//get variable + its name from lua
+	if (!lua_istable(L, -1))//error checking
+		assert(false);
+
+	////return values as integers (into variables)
+	lua_pushstring(L, "x"); //push the variable name
+	lua_gettable(L, -2); //pops the variable name off and replaces it with the value
+	x = (int)lua_tointeger(L, -1); //set the value to the struct's variable
+	lua_pop(L, 1); //pop for cleanup#
+
+	lua_pushstring(L, "y"); //push the variable name
+	lua_gettable(L, -2); //pops the variable name off and replaces it with the value
+	y = (int)lua_tointeger(L, -1); //set the value to the struct's variable
+	lua_pop(L, 1); //pop for cleanup
+}
+
+
+
+
 ////functions
 
 int CallRandomNumber(lua_State* L, const std::string& name) 
@@ -106,4 +127,18 @@ void CallMoveRight(lua_State* L, const std::string& name, float& x_val, float& f
 	frame_val = (float)lua_tonumber(L, -1); //return value as float
 
 	lua_pop(L, 2); //pop for cleanup
+}
+
+
+
+
+void CallVoidVoidCFunc(lua_State* L, const std::string& name)
+{
+	lua_getglobal(L, name.c_str()); //get variable by its name from lua
+
+	if (!lua_isfunction(L, -1)) //error checking
+		assert(false);
+
+	if (!LuaOK(L, lua_pcall(L, 0, 0, 0))) //calls a function in protected mode 
+		assert(false);		//(State, num of values into function, num of values out of function, value for error code)
 }

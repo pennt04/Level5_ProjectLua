@@ -45,27 +45,19 @@ struct Vector2
 {
 	int x, y;
 
-	void LuaGet(lua_State* L, const std::string& name)//get variable + its name from lua
-	{
-		lua_getglobal(L, name.c_str());
-		if (!lua_istable(L, -1))//error checking
-			assert(false);
-
-		////return values as integers (into variables)
-		lua_pushstring(L, "x"); //push the variable name
-		lua_gettable(L, -2); //pops the variable name off and replaces it with the value
-		x = (int)lua_tointeger(L, -1); //set the value to the struct's variable
-		lua_pop(L, 1); //pop for cleanup#
-
-		lua_pushstring(L, "y"); //push the variable name
-		lua_gettable(L, -2); //pops the variable name off and replaces it with the value
-		y = (int)lua_tointeger(L, -1); //set the value to the struct's variable
-		lua_pop(L, 1); //pop for cleanup
-	}
+	void LuaGet(lua_State* L, const std::string& name);
 };
+
 
 
 ////functions
 int CallRandomNumber(lua_State* L, const std::string& name);
 
 void CallMoveRight(lua_State* L, const std::string& name, float& x_val, float& frame_val);
+
+
+
+
+
+
+void CallVoidVoidCFunc(lua_State* L, const std::string& name);
