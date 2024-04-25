@@ -142,7 +142,9 @@ int main()
 						{
 							if (laser_limit[i] == NULL)
 							{
-								laser_limit[i] = new laser(the_ship->getX() + 44, the_ship->getY(), LuaGetString(L, "playerLaser"));
+								Vector2 laserOffset; laserOffset.LuaGet(L, "PlayerlaserOffset");
+
+								laser_limit[i] = new laser(the_ship->getX() + laserOffset.x, the_ship->getY() - laserOffset.y, LuaGetString(L, "playerLaser"));
 								break;
 							}
 						}
