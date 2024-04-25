@@ -86,3 +86,18 @@ void Player::right()
 {
 	CallMoveRight(L, "right", m_xpos, m_current_frame);
 }
+
+
+
+
+
+
+
+
+
+void Player::Init(Dispatcher& disp)// pass a reference to the static dispatcher
+{
+	//tell the dispatcher that we have a function for lua
+	Dispatcher::Command::voidintfunc f{[this](int score) {return setScore(score); } };
+	disp.Register("setScore", Dispatcher::Command{ f });//register the method name and correct signature to the li
+}

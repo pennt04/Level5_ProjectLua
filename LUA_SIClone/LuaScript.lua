@@ -61,3 +61,18 @@ end
 function callMessage()
 	display_message("Get a Life", 1)
 end
+
+
+
+
+
+
+
+
+
+
+
+
+function setPlayerScore()
+	CDispatcher("setScore", 5000)
+end

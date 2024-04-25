@@ -86,6 +86,18 @@ int main()
 
 
 
+	Dispatcher disp; disp.Init(L);
+	the_ship->Init(disp); // this is where you add to the library of methods you want lua to call
+
+
+
+
+
+
+
+
+
+
 	game_start_message();//DISPLAY THE GAME START MESSAGE 
 	
 	while (the_ship->getLives() > 0)// keep going until the ship is dead
@@ -217,7 +229,8 @@ int main()
 										ufo_counter++;
 										delete DynamicUfoArray[y][x];
 										DynamicUfoArray[y][x] = nullptr;
-										the_ship->setScore(100);
+										CallVoidVoidCFunc(L, "setPlayerScore");
+										//the_ship->setScore(100);
 										delete laser_limit[i];
 										laser_limit[i] = nullptr;
 									}
@@ -230,14 +243,17 @@ int main()
 								&& laser_limit[i]->getX() + 4 >= the_mothership->getX() && laser_limit[i]->getX() + 4 <= the_mothership->getX() + 103)  
 							{																	
 								the_mothership->reduceLives();
-								the_ship->setScore(20);
+								CallVoidVoidCFunc(L, "setPlayerScore");
+								//the_ship->setScore(20);
 								if (the_mothership->getLives() <= 0)
 								{
 									the_ship->increaseLives();
-									the_ship->setScore(300);
+									CallVoidVoidCFunc(L, "setPlayerScore");
+									//the_ship->setScore(300);
 									delete the_mothership;
 									the_mothership = nullptr;
-									the_ship->setScore(100);
+									CallVoidVoidCFunc(L, "setPlayerScore");
+									//the_ship->setScore(100);
 									delete laser_limit[i];
 									laser_limit[i] = nullptr;
 									laser_limit[i] = NULL;

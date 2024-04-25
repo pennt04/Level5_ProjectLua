@@ -61,3 +61,49 @@ void CallMoveRight(lua_State* L, const std::string& name, float& x_val, float& f
 
 
 void CallVoidVoidCFunc(lua_State* L, const std::string& name);
+
+
+
+
+
+
+//a middle man between c++ and lua.
+//Register class member functions so your lua script can then call them
+class Dispatcher 
+{
+public:
+	//capture your game functions here
+	struct Command
+	{
+		typedef std::function<void(int)> voidintfunc;//a function that returns nothing and takes in an int
+		voidintfunc voidintfunct;
+		//add any other function signatures here:
+
+	};
+
+
+private:
+	static std::map<std::string, Command> library; //this is where the game's functions are stored
+	// static means there can only be one
+public:
+
+	//call once at start
+	void Init(lua_State* L)
+	{
+		lua_register(L, "CDispatcher", LuaCall);
+	}
+
+	//register game functions
+	void Register(const std::string& name, Command cmd)
+	{
+		assert(library.find(name) == library.end());
+			library[name] = cmd;
+	}
+
+	//lua calls this then the data gets dispatched to the named function
+	//lua cannot call class member functions without help
+	static int LuaCall(lua_State* L);
+
+
+
+};

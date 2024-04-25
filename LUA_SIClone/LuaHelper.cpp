@@ -142,3 +142,32 @@ void CallVoidVoidCFunc(lua_State* L, const std::string& name)
 	if (!LuaOK(L, lua_pcall(L, 0, 0, 0))) //calls a function in protected mode 
 		assert(false);		//(State, num of values into function, num of values out of function, value for error code)
 }
+
+
+
+
+
+//create a variable the same type as the library, and link it to the static library
+std::map<string, Dispatcher::Command> Dispatcher::library;
+
+int Dispatcher::LuaCall(lua_State* L)// LuaCall iterates through the library of registered functions by name
+{
+	string name = lua_tostring(L, 1);
+
+	std::map<string, Command>::iterator it = library.find(name);
+	assert(it != library.end());
+
+	Command& cmd = (*it).second;
+
+	if (cmd.voidintfunct)
+	{
+		int param = lua_tointeger(L, 2);
+		cmd.voidintfunct(param); // and executes the function when found
+
+		lua_pop(L, 1);
+	}
+	else // add any more cases here
+		assert(false);
+
+	return 1; //sacrificial int passing
+}

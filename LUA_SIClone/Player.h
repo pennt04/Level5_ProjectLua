@@ -23,15 +23,22 @@ private:
 	int m_score;
 	lua_State* L = luaL_newstate(); //create an instance of lua
 
+
+
+	void setScore(int score);
+
 public:
 	//constructor
 	Player(float xPos, float yPos, int lives, string filename);
 	~Player(void);
 
+
+	void Init(Dispatcher& disp);
+
+
 	//methods
 	void reduceLives();
 	void increaseLives();
-	void setScore(int score);
 	int getLives();
 	int getScore();
 	void kill();
