@@ -17,11 +17,21 @@ Player::Player(float xPos, float yPos, int lives, string filename)
 {
 	m_lives = lives;
 	m_score = 0;
+
+
+	//initialize lua
+	luaL_openlibs(L); //open libraries for scripts
+
+	if (!LuaOK(L, luaL_dofile(L, "LuaScript.lua")))//open LuaScript
+		assert(false);
 }
 
 Player::~Player()
 {
 	//al_destroy_bitmap(m_Ship_image);
+	
+	//end lua
+	lua_close(L);
 }
 
 //Methods
@@ -63,4 +73,16 @@ void Player::reset_lives()
 void Player::reset_score()
 {
 	m_score = 0;
+}
+
+
+
+
+
+
+
+
+void Player::right()
+{
+	CallMoveRight(L, "right", m_xpos, m_current_frame);
 }

@@ -40,7 +40,6 @@ float LuaGetFloat(lua_State* L, const std::string& name);
 double LuaGetDouble(lua_State* L, const std::string& name);
 
 
-
 //function for vector2
 struct Vector2
 {
@@ -64,3 +63,9 @@ struct Vector2
 		lua_pop(L, 1); //pop for cleanup
 	}
 };
+
+
+////functions
+int CallRandomNumber(lua_State* L, const std::string& name);
+
+void CallMoveRight(lua_State* L, const std::string& name, float& x_val, float& frame_val);
