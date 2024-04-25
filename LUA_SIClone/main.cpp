@@ -29,7 +29,7 @@ int x, y;//used for ufo array coordinates
 
 
 void destroyUFOs();
-void spawnUFOs();
+int spawnUFOs(lua_State* L);
 int display_message(lua_State* L);
 void game_start_message();
 
@@ -104,7 +104,7 @@ int main()
 	{			
 			al_flush_event_queue(Input_manager->Get_event());//clears the queue of events
 
-			spawnUFOs();
+			spawnUFOs(L);
 			for (int i = 0; i < 10; i++)//set all lasers to null
 			{
 				laser_limit[i] = NULL;
@@ -142,7 +142,7 @@ int main()
 						{
 							if (laser_limit[i] == NULL)
 							{
-								laser_limit[i] = new laser(the_ship->getX() + 44, the_ship->getY(), "assets/PlayerLaser.bmp");
+								laser_limit[i] = new laser(the_ship->getX() + 44, the_ship->getY(), LuaGetString(L, "playerLaser"));
 								break;
 							}
 						}
@@ -161,7 +161,7 @@ int main()
 									{
 										if (Ufo_lasers[i] == NULL)
 										{
-											Ufo_lasers[i] = new laser(DynamicUfoArray[y][x]->getX() + 35, DynamicUfoArray[y][x]->getY() + 53, "assets/PlayerLaser.bmp");
+											Ufo_lasers[i] = new laser(DynamicUfoArray[y][x]->getX() + 35, DynamicUfoArray[y][x]->getY() + 53, LuaGetString(L, "playerLaser"));
 											break;
 										}
 									}
@@ -439,7 +439,7 @@ int main()
 								//delete the ufo's 
 								destroyUFOs();
 								//then respawn them
-								spawnUFOs();
+								spawnUFOs(L);
 								break;
 							}
 						}
@@ -529,8 +529,12 @@ void destroyUFOs()
 	}
 }
 
-void spawnUFOs()
+int spawnUFOs(lua_State* L)
 {
+	// need these so not to access same lua values loads in short space of time
+	std::string ufo1 = LuaGetString(L, "ufo1");
+	std::string ufo2 = LuaGetString(L, "ufo2");
+
 	for (y = 0; y < 5; y++)//spawn ufos
 	{
 		DynamicUfoArray[y] = new Ufo * [10];
@@ -539,10 +543,11 @@ void spawnUFOs()
 	{
 		for (x = 0; x < 10; x++)
 		{
-			DynamicUfoArray[y][x] = new Ufo((x * 85) + 85, (y * 50) + 70, "assets/Ufo1.bmp");
-			DynamicUfoArray[y][x]->addFrame("assets/Ufo2.bmp");
+			DynamicUfoArray[y][x] = new Ufo((x * 85) + 85, (y * 50) + 70, ufo1);
+			DynamicUfoArray[y][x]->addFrame(ufo2);
 		}
 	}
+	return 1;
 }
 
 int display_message(lua_State* L)
