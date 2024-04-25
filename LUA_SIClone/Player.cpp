@@ -87,7 +87,10 @@ void Player::right()
 	CallMoveRight(L, "right", m_xpos, m_current_frame);
 }
 
-
+void Player::left()
+{
+	CallMoveLeft(L, "left", m_xpos, m_current_frame);
+}
 
 
 

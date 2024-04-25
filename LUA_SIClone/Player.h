@@ -47,4 +47,6 @@ public:
 
 
 	void right();
+	void left();
+
 };

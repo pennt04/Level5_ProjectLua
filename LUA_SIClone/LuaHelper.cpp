@@ -128,7 +128,24 @@ void CallMoveRight(lua_State* L, const std::string& name, float& x_val, float& f
 
 	lua_pop(L, 2); //pop for cleanup
 }
+void CallMoveLeft(lua_State* L, const std::string& name, float& x_val, float& frame_val)
+{
+	lua_getglobal(L, name.c_str()); //get variable by its name from lua
+	if (!lua_isfunction(L, -1)) //error checking
+		assert(false);
 
+	//push the return values to lua
+	lua_pushnumber(L, x_val);
+	lua_pushnumber(L, frame_val);
+
+	if (!LuaOK(L, lua_pcall(L, 2, 2, 0))) //calls a function in protected mode 
+		assert(false);		//(State, num of values into function, num of values out of function, value for error code)
+
+	x_val = (float)lua_tonumber(L, -2); //return value as float
+	frame_val = (float)lua_tonumber(L, -1); //return value as float
+
+	lua_pop(L, 2); //pop for cleanup
+}
 
 
 

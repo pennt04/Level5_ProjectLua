@@ -48,6 +48,21 @@ function right(x,currentFrame)
 	return x, currentFrame
 end
 
+function left(x,currentFrame)
+	x = x-5 --decreases the x coordinate value
+
+	if (x <= 10) --don't let the coordinate exceed the window
+	then
+		x = 10
+	end
+
+	if (currentFrame > 1.9) --reset the frame
+	then
+		currentFrame = 0
+	end
+	
+	return x, currentFrame
+end
 
 
 

@@ -54,6 +54,7 @@ struct Vector2
 int CallRandomNumber(lua_State* L, const std::string& name);
 
 void CallMoveRight(lua_State* L, const std::string& name, float& x_val, float& frame_val);
+void CallMoveLeft(lua_State* L, const std::string& name, float& x_val, float& frame_val);
 
 
 
